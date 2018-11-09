@@ -42,3 +42,23 @@ site.textarea.char_limit = (Limit is {0} characters)
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
+
+areYouALabrador.title = areYouALabrador
+areYouALabrador.heading = areYouALabrador
+areYouALabrador.checkYourAnswersLabel = areYouALabrador
+areYouALabrador.error.required = Select yes if areYouALabrador
+
+isYourNoseWet.title = isYourNoseWet
+isYourNoseWet.heading = isYourNoseWet
+isYourNoseWet.checkYourAnswersLabel = isYourNoseWet
+isYourNoseWet.error.required = Select yes if isYourNoseWet
+
+whatNoiseDoYouMake.title = whatNoiseDoYouMake
+whatNoiseDoYouMake.heading = whatNoiseDoYouMake
+whatNoiseDoYouMake.field1 = Field 1
+whatNoiseDoYouMake.field2 = Field 2
+whatNoiseDoYouMake.checkYourAnswersLabel = whatNoiseDoYouMake
+whatNoiseDoYouMake.error.field1.required = Enter field1
+whatNoiseDoYouMake.error.field2.required = Enter field2
+whatNoiseDoYouMake.error.field1.length = field1 must be 10 characters or less
+whatNoiseDoYouMake.error.field2.length = field2 must be 100 characters or less

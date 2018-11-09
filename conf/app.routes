@@ -11,3 +11,18 @@ GET        /this-service-has-been-reset                 controllers.SessionExpir
 GET        /check-your-answers                          controllers.CheckYourAnswersController.onPageLoad
 
 GET        /unauthorised                                controllers.UnauthorisedController.onPageLoad
+
+GET        /areYouALabrador                        controllers.AreYouALabradorController.onPageLoad(mode: Mode = NormalMode)
+POST       /areYouALabrador                        controllers.AreYouALabradorController.onSubmit(mode: Mode = NormalMode)
+GET        /changeAreYouALabrador                  controllers.AreYouALabradorController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeAreYouALabrador                  controllers.AreYouALabradorController.onSubmit(mode: Mode = CheckMode)
+
+GET        /isYourNoseWet                        controllers.IsYourNoseWetController.onPageLoad(mode: Mode = NormalMode)
+POST       /isYourNoseWet                        controllers.IsYourNoseWetController.onSubmit(mode: Mode = NormalMode)
+GET        /changeIsYourNoseWet                  controllers.IsYourNoseWetController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeIsYourNoseWet                  controllers.IsYourNoseWetController.onSubmit(mode: Mode = CheckMode)
+
+GET        /whatNoiseDoYouMake                        controllers.WhatNoiseDoYouMakeController.onPageLoad(mode: Mode = NormalMode)
+POST       /whatNoiseDoYouMake                        controllers.WhatNoiseDoYouMakeController.onSubmit(mode: Mode = NormalMode)
+GET        /changeWhatNoiseDoYouMake                  controllers.WhatNoiseDoYouMakeController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeWhatNoiseDoYouMake                  controllers.WhatNoiseDoYouMakeController.onSubmit(mode: Mode = CheckMode)
