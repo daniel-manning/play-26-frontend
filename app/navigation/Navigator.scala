@@ -17,7 +17,6 @@
 package navigation
 
 import javax.inject.{Inject, Singleton}
-
 import play.api.mvc.Call
 import controllers.routes
 import pages._
@@ -27,7 +26,9 @@ import models._
 class Navigator @Inject()() {
 
   private val routeMap: Map[Page, UserAnswers => Call] = Map(
-
+    IsYourNoseWetPage -> ( _ => routes.WhatNoiseDoYouMakeController.onPageLoad(NormalMode)),
+    WhatNoiseDoYouMakePage -> ( _ => routes.AreYouALabradorController.onPageLoad(NormalMode)),
+    AreYouALabradorPage -> ( _ => routes.CheckYourAnswersController.onPageLoad())
   )
 
   private val checkRouteMap: Map[Page, UserAnswers => Call] = Map(

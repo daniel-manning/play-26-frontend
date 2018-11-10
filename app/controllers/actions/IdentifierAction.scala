@@ -36,7 +36,7 @@ class AuthenticatedIdentifierAction @Inject()(override val authConnector: AuthCo
   override def invokeBlock[A](request: Request[A], block: (IdentifierRequest[A]) => Future[Result]): Future[Result] = {
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
 
-    authorised().retrieve(Retrievals.internalId) {
+/*    authorised().retrieve(Retrievals.internalId) {
       _.map {
         internalId => block(IdentifierRequest(request, internalId))
       }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
@@ -53,7 +53,12 @@ class AuthenticatedIdentifierAction @Inject()(override val authConnector: AuthCo
         Redirect(routes.UnauthorisedController.onPageLoad)
       case ex: UnsupportedCredentialRole =>
         Redirect(routes.UnauthorisedController.onPageLoad)
-    }
+    }*/
+
+    Some("").map {
+      internalId => block(IdentifierRequest(request, internalId))
+    }.getOrElse(throw new UnauthorizedException("Unable to retrieve internal Id"))
+
   }
 }
 

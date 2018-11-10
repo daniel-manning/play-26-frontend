@@ -17,7 +17,6 @@
 package controllers
 
 import javax.inject.Inject
-
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -25,9 +24,10 @@ import connectors.DataCacheConnector
 import controllers.actions._
 import config.FrontendAppConfig
 import forms.IsYourNoseWetFormProvider
-import models.Mode
+import models.{Mode, UserAnswers}
 import pages.IsYourNoseWetPage
 import navigation.Navigator
+import uk.gov.hmrc.http.cache.client.CacheMap
 import views.html.isYourNoseWet
 
 import scala.concurrent.Future
@@ -44,25 +44,22 @@ class IsYourNoseWetController @Inject()(appConfig: FrontendAppConfig,
 
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad(mode: Mode) = (identify andThen getData andThen requireData) {
+  def onPageLoad(mode: Mode) = (identify) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(IsYourNoseWetPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
+      val preparedForm = form
 
       Ok(isYourNoseWet(appConfig, preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode) = (identify andThen getData andThen requireData).async {
+  def onSubmit(mode: Mode) = (identify andThen getData).async {
     implicit request =>
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(isYourNoseWet(appConfig, formWithErrors, mode))),
         (value) => {
-          val updatedAnswers = request.userAnswers.set(IsYourNoseWetPage, value)
+          val updatedAnswers = request.userAnswers.getOrElse(new UserAnswers(new CacheMap("", Map()))).set(IsYourNoseWetPage, value)
 
           dataCacheConnector.save(updatedAnswers.cacheMap).map(
             _ =>
