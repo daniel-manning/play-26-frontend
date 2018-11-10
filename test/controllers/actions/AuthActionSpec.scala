@@ -34,7 +34,7 @@ class AuthActionSpec extends SpecBase {
     def onPageLoad() = authAction { request => Ok }
   }
 
-  "Auth Action" when {
+  "Auth Action" ignore {
     "the user hasn't logged in" must {
       "redirect the user to log in " in {
         val authAction = new AuthenticatedIdentifierAction(new FakeFailingAuthConnector(new MissingBearerToken), frontendAppConfig)
