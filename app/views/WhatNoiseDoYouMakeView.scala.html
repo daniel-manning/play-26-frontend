@@ -17,28 +17,39 @@
 @import config.FrontendAppConfig
 @import uk.gov.hmrc.play.views.html._
 @import controllers.routes._
-@import models.Mode
+@import models.{Mode, WhatNoiseDoYouMake}
 @import views.ViewUtils._
 
-@(appConfig: FrontendAppConfig, form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+
+@this(
+  main_template: MainTemplate,
+  formHelper: FormWithCSRF,
+  appConfig: FrontendAppConfig
+)
+
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("isYourNoseWet.title")}",
+    title = s"${errorPrefix(form)} ${messages("whatNoiseDoYouMake.title")}",
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @helpers.form(action = IsYourNoseWetController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = WhatNoiseDoYouMakeController.onSubmit(mode), 'autoComplete -> "off") {
 
         @components.back_link()
 
         @components.error_summary(form.errors)
 
-        @components.heading("isYourNoseWet.heading")
+        @components.heading("whatNoiseDoYouMake.heading")
 
-        @components.input_yes_no(
-            field = form("value"),
-            label = messages("isYourNoseWet.heading"),
-            labelClass = Some("visually-hidden")
+        @components.input_text(
+            field = form("field1"),
+            label = messages("whatNoiseDoYouMake.field1")
+        )
+
+        @components.input_text(
+            field = form("field2"),
+            label = messages("whatNoiseDoYouMake.field2")
         )
 
         @components.submit_button()

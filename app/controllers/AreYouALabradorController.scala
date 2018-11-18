@@ -28,7 +28,7 @@ import models.Mode
 import pages.AreYouALabradorPage
 import navigation.Navigator
 import play.api.mvc.MessagesControllerComponents
-import views.html.areYouALabrador
+import views.html.AreYouALabradorView
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -40,7 +40,8 @@ class AreYouALabradorController @Inject()(appConfig: FrontendAppConfig,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
                                          formProvider: AreYouALabradorFormProvider,
-                                          cc: MessagesControllerComponents
+                                          cc: MessagesControllerComponents,
+                                          view: AreYouALabradorView
                                          )(implicit ec: ExecutionContext) extends FrontendController(cc) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
@@ -53,7 +54,7 @@ class AreYouALabradorController @Inject()(appConfig: FrontendAppConfig,
         case Some(value) => form.fill(value)
       }
 
-      Ok(areYouALabrador(appConfig, preparedForm, mode))
+      Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode) = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class AreYouALabradorController @Inject()(appConfig: FrontendAppConfig,
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(areYouALabrador(appConfig, formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode))),
         (value) => {
           val updatedAnswers = request.userAnswers.set(AreYouALabradorPage, value)
 

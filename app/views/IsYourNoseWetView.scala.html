@@ -20,24 +20,30 @@
 @import models.Mode
 @import views.ViewUtils._
 
-@(appConfig: FrontendAppConfig, form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@this(
+  main_template: MainTemplate,
+  formHelper: FormWithCSRF,
+  appConfig: FrontendAppConfig
+)
+
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("areYouALabrador.title")}",
+    title = s"${errorPrefix(form)} ${messages("isYourNoseWet.title")}",
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @helpers.form(action = AreYouALabradorController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = IsYourNoseWetController.onSubmit(mode), 'autoComplete -> "off") {
 
         @components.back_link()
 
         @components.error_summary(form.errors)
 
-        @components.heading("areYouALabrador.heading")
+        @components.heading("isYourNoseWet.heading")
 
         @components.input_yes_no(
             field = form("value"),
-            label = messages("areYouALabrador.heading"),
+            label = messages("isYourNoseWet.heading"),
             labelClass = Some("visually-hidden")
         )
 

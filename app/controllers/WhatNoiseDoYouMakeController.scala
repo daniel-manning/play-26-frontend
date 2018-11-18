@@ -28,7 +28,7 @@ import models.Mode
 import pages.WhatNoiseDoYouMakePage
 import navigation.Navigator
 import play.api.mvc.MessagesControllerComponents
-import views.html.whatNoiseDoYouMake
+import views.html.WhatNoiseDoYouMakeView
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -40,7 +40,8 @@ class WhatNoiseDoYouMakeController @Inject()(appConfig: FrontendAppConfig,
                                       getData: DataRetrievalAction,
                                       requireData: DataRequiredAction,
                                       formProvider: WhatNoiseDoYouMakeFormProvider,
-                                      cc: MessagesControllerComponents
+                                      cc: MessagesControllerComponents,
+                                      view: WhatNoiseDoYouMakeView
                                       )(implicit ec: ExecutionContext) extends FrontendController(cc) with I18nSupport {
 
   val form = formProvider()
@@ -53,7 +54,7 @@ class WhatNoiseDoYouMakeController @Inject()(appConfig: FrontendAppConfig,
         case Some(value) => form.fill(value)
       }
 
-      Ok(whatNoiseDoYouMake(appConfig, preparedForm, mode))
+      Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode) = (identify andThen getData andThen requireData).async {
@@ -61,7 +62,7 @@ class WhatNoiseDoYouMakeController @Inject()(appConfig: FrontendAppConfig,
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(whatNoiseDoYouMake(appConfig, formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode))),
         (value) => {
           val updatedAnswers = request.userAnswers.set(WhatNoiseDoYouMakePage, value)
 

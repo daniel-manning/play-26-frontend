@@ -15,15 +15,30 @@
  *@
 
 @import config.FrontendAppConfig
+@import viewmodels.{Section, AnswerSection, RepeaterAnswerSection}
 
-@(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
+@this(
+main_template: MainTemplate,
+appConfig: FrontendAppConfig
+)
+
+@(answerSections: Seq[Section])(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("index.title"),
+    title = messages("checkYourAnswers.title"),
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @components.heading("index.heading")
+    @components.heading("checkYourAnswers.heading")</h1>
 
-    <p>@messages("index.guidance")</p>
+    <p>@messages("checkYourAnswers.guidance")</p>
+
+    @for(section <- answerSections){
+        @{
+            section match {
+                case a: AnswerSection => components.answer_section(a)
+                case r: RepeaterAnswerSection => components.repeater_answer_section(r)
+            }
+        }
+    }
 }

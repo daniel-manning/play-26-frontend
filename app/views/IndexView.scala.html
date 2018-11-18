@@ -16,14 +16,19 @@
 
 @import config.FrontendAppConfig
 
-@(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
+@this(
+  main_template: MainTemplate,
+  appConfig: FrontendAppConfig
+)
+
+@()(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("session_expired.title"),
+    title = messages("index.title"),
     appConfig = appConfig,
     bodyClasses = None) {
 
-    @components.heading("session_expired.heading")
+    @components.heading("index.heading")
 
-    <p>@messages("session_expired.guidance")</p>
+    <p>@messages("index.guidance")</p>
 }

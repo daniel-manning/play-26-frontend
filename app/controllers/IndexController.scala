@@ -21,13 +21,14 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import config.FrontendAppConfig
-import views.html.index
+import views.html.IndexView
 
 class IndexController @Inject()(val appConfig: FrontendAppConfig,
                                 override val messagesApi: MessagesApi,
+                                view:IndexView,
                                 cc: MessagesControllerComponents) extends FrontendController(cc) with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = Action { implicit request =>
-    Ok(index(appConfig))
+    Ok(view())
   }
 }

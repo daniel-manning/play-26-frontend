@@ -29,7 +29,7 @@ import pages.IsYourNoseWetPage
 import navigation.Navigator
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.http.cache.client.CacheMap
-import views.html.isYourNoseWet
+import views.html.IsYourNoseWetView
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -41,7 +41,8 @@ class IsYourNoseWetController @Inject()(appConfig: FrontendAppConfig,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
                                          formProvider: IsYourNoseWetFormProvider,
-                                        cc: MessagesControllerComponents
+                                        cc: MessagesControllerComponents,
+                                        view: IsYourNoseWetView
                                          )(implicit ec: ExecutionContext) extends FrontendController(cc) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
@@ -51,7 +52,7 @@ class IsYourNoseWetController @Inject()(appConfig: FrontendAppConfig,
 
       val preparedForm = form
 
-      Ok(isYourNoseWet(appConfig, preparedForm, mode))
+      Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode) = (identify andThen getData).async {
@@ -59,7 +60,7 @@ class IsYourNoseWetController @Inject()(appConfig: FrontendAppConfig,
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(isYourNoseWet(appConfig, formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode))),
         (value) => {
           val updatedAnswers = request.userAnswers.getOrElse(new UserAnswers(new CacheMap("", Map()))).set(IsYourNoseWetPage, value)
 
