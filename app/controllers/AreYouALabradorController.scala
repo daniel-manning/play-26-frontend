@@ -17,7 +17,6 @@
 package controllers
 
 import javax.inject.Inject
-
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -28,9 +27,10 @@ import forms.AreYouALabradorFormProvider
 import models.Mode
 import pages.AreYouALabradorPage
 import navigation.Navigator
+import play.api.mvc.MessagesControllerComponents
 import views.html.areYouALabrador
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class AreYouALabradorController @Inject()(appConfig: FrontendAppConfig,
                                          override val messagesApi: MessagesApi,
@@ -39,8 +39,9 @@ class AreYouALabradorController @Inject()(appConfig: FrontendAppConfig,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
-                                         formProvider: AreYouALabradorFormProvider
-                                         ) extends FrontendController with I18nSupport {
+                                         formProvider: AreYouALabradorFormProvider,
+                                          cc: MessagesControllerComponents
+                                         )(implicit ec: ExecutionContext) extends FrontendController(cc) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
 

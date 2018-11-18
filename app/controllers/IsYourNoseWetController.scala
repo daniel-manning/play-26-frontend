@@ -27,10 +27,11 @@ import forms.IsYourNoseWetFormProvider
 import models.{Mode, UserAnswers}
 import pages.IsYourNoseWetPage
 import navigation.Navigator
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.http.cache.client.CacheMap
 import views.html.isYourNoseWet
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class IsYourNoseWetController @Inject()(appConfig: FrontendAppConfig,
                                          override val messagesApi: MessagesApi,
@@ -39,8 +40,9 @@ class IsYourNoseWetController @Inject()(appConfig: FrontendAppConfig,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
-                                         formProvider: IsYourNoseWetFormProvider
-                                         ) extends FrontendController with I18nSupport {
+                                         formProvider: IsYourNoseWetFormProvider,
+                                        cc: MessagesControllerComponents
+                                         )(implicit ec: ExecutionContext) extends FrontendController(cc) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
 

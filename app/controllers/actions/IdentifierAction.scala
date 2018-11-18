@@ -30,8 +30,10 @@ import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AuthenticatedIdentifierAction @Inject()(override val authConnector: AuthConnector, config: FrontendAppConfig)
-                              (implicit ec: ExecutionContext) extends IdentifierAction with AuthorisedFunctions {
+class AuthenticatedIdentifierAction @Inject()(override val authConnector: AuthConnector,
+                                              config: FrontendAppConfig,
+                                              val parser: BodyParser[AnyContent],
+                                              implicit val executionContext:ExecutionContext) extends IdentifierAction with AuthorisedFunctions {
 
   override def invokeBlock[A](request: Request[A], block: (IdentifierRequest[A]) => Future[Result]): Future[Result] = {
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))

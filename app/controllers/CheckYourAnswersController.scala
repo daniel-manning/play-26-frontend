@@ -29,7 +29,8 @@ class CheckYourAnswersController @Inject()(appConfig: FrontendAppConfig,
                                            override val messagesApi: MessagesApi,
                                            authenticate: IdentifierAction,
                                            getData: DataRetrievalAction,
-                                           requireData: DataRequiredAction) extends FrontendController with I18nSupport {
+                                           requireData: DataRequiredAction,
+                                           cc: play.api.mvc.MessagesControllerComponents) extends FrontendController(cc) with I18nSupport {
 
   def onPageLoad() = (authenticate andThen getData andThen requireData) {
     implicit request =>

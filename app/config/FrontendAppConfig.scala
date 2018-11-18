@@ -18,7 +18,7 @@ package config
 
 import play.api.Configuration
 import controllers.routes
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 import play.api.i18n.Lang
 
 
