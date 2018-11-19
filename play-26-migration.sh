@@ -12,3 +12,8 @@ sed -i '/"uk.gov.hmrc" %% "logback-json-logger" % "3.1.0",/d' ./project/AppDepen
 sed -i 's/govuk-template.*/govuk-template" % "5.25.0-play-26",/' ./project/AppDependencies.scala
 sed -i 's/play-health.*/play-health" % "3.7.0-play-26",/' ./project/AppDependencies.scala
 sed -i 's/play-ui.*/play-ui" % "7.25.0-play-26",/' ./project/AppDependencies.scala
+
+#change the uglify key
+sed -i 's/UglifyKeys.compressOptions/uglifyCompressOptions/' ./build.sbt
+
+
