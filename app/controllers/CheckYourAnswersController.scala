@@ -16,7 +16,7 @@
 
 package controllers
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import controllers.actions.{IdentifierAction, DataRequiredAction, DataRetrievalAction}
 import utils.CheckYourAnswersHelper

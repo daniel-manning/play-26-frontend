@@ -16,7 +16,7 @@
 
 package controllers.actions
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import play.api.mvc.{ActionBuilder, ActionFunction, Request, Result}
 import play.api.mvc.Results._
 import uk.gov.hmrc.auth.core._

@@ -16,7 +16,7 @@
 
 package controllers.actions
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import play.api.mvc.{ActionRefiner, Result}
 import play.api.mvc.Results.Redirect
 import controllers.routes

@@ -17,4 +17,5 @@
 #sed -i 's/UglifyKeys.compressOptions/uglifyCompressOptions/' ./build.sbt
 
 #fix google inject
-find . -type f -exec sed -i 's/import com.google.inject.{Inject, Singleton}/import javax.inject.{Inject, Singleton}/g' {} \;
+find app/* -type f -exec sed -i 's/import com.google.inject.{Inject, Singleton}/import javax.inject.{Inject, Singleton}/g' {} \;
+find app/* -type f -exec sed -i 's/import com.google.inject.Inject/import javax.inject.Inject/g' {} \;
