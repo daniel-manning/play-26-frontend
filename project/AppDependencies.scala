@@ -1,5 +1,7 @@
 import sbt._
 
+import scalafix.sbt.ScalafixPlugin.autoImport._
+
 object AppDependencies {
   import play.core.PlayVersion
 

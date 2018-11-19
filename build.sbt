@@ -13,23 +13,36 @@ lazy val root = (project in file("."))
   .settings(majorVersion := 0)
   .settings(
     name := appName,
+    scalaVersion := "2.11.12",
     RoutesKeys.routesImport += "models._",
     PlayKeys.playDefaultPort := 9000,
+    TwirlKeys.templateImports ++= Seq(
+      "play.twirl.api.HtmlFormat",
+      "play.twirl.api.HtmlFormat._",
+      "uk.gov.hmrc.play.views.html.helpers._",
+      "uk.gov.hmrc.play.views.html.layouts._"
+    ),
     ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;.*repositories.*;" +
       ".*BuildInfo.*;.*javascript.*;.*FrontendAuditConnector.*;.*Routes.*;.*GuiceInjector;" +
       ".*ControllerConfiguration;.*LanguageSwitchController",
     ScoverageKeys.coverageMinimum := 80,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
-    scalacOptions ++= Seq("-Xfatal-warnings", "-feature"),
+    //"-Xfatal-warnings",
+    scalacOptions ++= Seq("-feature"),
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
     evictionWarningOptions in update :=
-      EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
+      EvictionWarningOptions.default.withWarnScalaVersionEviction(false), 
+    addCompilerPlugin(scalafixSemanticdb), // enable SemanticDB
     fork in Test := true,
     resolvers ++= Seq(
       Resolver.bintrayRepo("hmrc", "releases"),
       Resolver.jcenterRepo
+    ),
+    scalacOptions ++= List(
+         "-Yrangepos",          // required by SemanticDB compiler plugin
+         "-Ywarn-unused-import" // required by `RemoveUnused` rule
     ),
     // concatenate js
     Concat.groups := Seq(
