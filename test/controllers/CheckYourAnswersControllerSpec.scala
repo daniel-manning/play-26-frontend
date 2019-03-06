@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,27 @@
 
 package controllers
 
-import play.api.test.Helpers._
+import akka.stream.Materializer
 import controllers.actions.{DataRequiredActionImpl, DataRetrievalAction, FakeIdentifierAction}
+import play.api.test.Helpers._
 import viewmodels.AnswerSection
-import views.html.check_your_answers
+import views.html.CheckYourAnswersView
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class CheckYourAnswersControllerSpec extends ControllerSpecBase {
 
+  val view = app.injector.instanceOf[CheckYourAnswersView]
+
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new CheckYourAnswersController(frontendAppConfig, messagesApi, FakeIdentifierAction, dataRetrievalAction, new DataRequiredActionImpl)
+    new CheckYourAnswersController(frontendAppConfig, messagesApi, new FakeIdentifierAction, dataRetrievalAction,
+      new DataRequiredActionImpl, cc, view)
 
   "Check Your Answers Controller" must {
     "return 200 and the correct view for a GET" in {
       val result = controller().onPageLoad()(fakeRequest)
       status(result) mustBe OK
-      contentAsString(result) mustBe check_your_answers(frontendAppConfig, Seq(AnswerSection(None, Seq())))(fakeRequest, messages).toString
+      contentAsString(result) mustBe view(Seq(AnswerSection(None, Seq())))(fakeRequest, messages).toString
     }
 
     "redirect to Session Expired for a GET if no existing data is found" in {

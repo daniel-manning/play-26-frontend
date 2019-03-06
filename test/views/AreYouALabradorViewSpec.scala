@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,17 +21,18 @@ import controllers.routes
 import forms.AreYouALabradorFormProvider
 import views.behaviours.YesNoViewBehaviours
 import models.NormalMode
-import views.html.areYouALabrador
+import views.html.AreYouALabradorView
 
 class AreYouALabradorViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix = "areYouALabrador"
 
   val form = new AreYouALabradorFormProvider()()
+  val view = app.injector.instanceOf[AreYouALabradorView]
 
-  def createView = () => areYouALabrador(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView = () => view(form, NormalMode)(fakeRequest, messages)
 
-  def createViewUsingForm = (form: Form[_]) => areYouALabrador(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createViewUsingForm = (form: Form[_]) => view(form, NormalMode)(fakeRequest, messages)
 
   "AreYouALabrador view" must {
 

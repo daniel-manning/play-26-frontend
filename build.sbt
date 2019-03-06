@@ -5,6 +5,8 @@ import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
 lazy val appName: String = "play-26-frontend"
 
+scalaVersion:="2.11.11"
+
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory, SbtWeb)
   .settings(DefaultBuildSettings.scalaSettings: _*)

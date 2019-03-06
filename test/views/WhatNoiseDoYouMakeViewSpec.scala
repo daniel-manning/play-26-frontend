@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 
 package views
 
-import play.api.data.Form
 import controllers.routes
 import forms.WhatNoiseDoYouMakeFormProvider
 import models.{NormalMode, WhatNoiseDoYouMake}
+import play.api.data.Form
 import views.behaviours.QuestionViewBehaviours
-import views.html.whatNoiseDoYouMake
+import views.html.WhatNoiseDoYouMakeView
 
 class WhatNoiseDoYouMakeViewSpec extends QuestionViewBehaviours[WhatNoiseDoYouMake] {
 
@@ -29,9 +29,11 @@ class WhatNoiseDoYouMakeViewSpec extends QuestionViewBehaviours[WhatNoiseDoYouMa
 
   override val form = new WhatNoiseDoYouMakeFormProvider()()
 
-  def createView = () => whatNoiseDoYouMake(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  val view = app.injector.instanceOf[WhatNoiseDoYouMakeView]
 
-  def createViewUsingForm = (form: Form[_]) => whatNoiseDoYouMake(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView = () => view(form, NormalMode)(fakeRequest, messages)
+
+  def createViewUsingForm = (form: Form[_]) => view(form, NormalMode)(fakeRequest, messages)
 
 
   "WhatNoiseDoYouMake view" must {

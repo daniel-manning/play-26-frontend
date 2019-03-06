@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,21 @@
 
 package controllers
 
-import play.api.data.Form
-import play.api.libs.json.Json
-import uk.gov.hmrc.http.cache.client.CacheMap
-import navigation.FakeNavigator
 import connectors.FakeDataCacheConnector
 import controllers.actions._
-import play.api.test.Helpers._
 import forms.WhatNoiseDoYouMakeFormProvider
 import models.{NormalMode, WhatNoiseDoYouMake}
+import navigation.FakeNavigator
 import pages.WhatNoiseDoYouMakePage
+import play.api.data.Form
+import play.api.libs.json.Json
 import play.api.mvc.Call
-import views.html.whatNoiseDoYouMake
+import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
+import views.html.WhatNoiseDoYouMakeView
+
+import scala.concurrent.ExecutionContext.Implicits.global
+
 
 class WhatNoiseDoYouMakeControllerSpec extends ControllerSpecBase {
 
@@ -36,11 +39,13 @@ class WhatNoiseDoYouMakeControllerSpec extends ControllerSpecBase {
   val formProvider = new WhatNoiseDoYouMakeFormProvider()
   val form = formProvider()
 
-  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new WhatNoiseDoYouMakeController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(onwardRoute), FakeIdentifierAction,
-      dataRetrievalAction, new DataRequiredActionImpl, formProvider)
+  val view = app.injector.instanceOf[WhatNoiseDoYouMakeView]
 
-  def viewAsString(form: Form[_] = form) = whatNoiseDoYouMake(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
+    new WhatNoiseDoYouMakeController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(onwardRoute), new FakeIdentifierAction,
+      dataRetrievalAction, new DataRequiredActionImpl, formProvider, cc, view)
+
+  def viewAsString(form: Form[_] = form) = view(form, NormalMode)(fakeRequest, messages).toString
 
   "WhatNoiseDoYouMake Controller" must {
 

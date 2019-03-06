@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,21 @@
 
 package controllers
 
-import play.api.data.Form
-import play.api.libs.json.JsBoolean
-import uk.gov.hmrc.http.cache.client.CacheMap
-import navigation.FakeNavigator
+import akka.stream.Materializer
 import connectors.FakeDataCacheConnector
 import controllers.actions._
-import play.api.test.Helpers._
 import forms.AreYouALabradorFormProvider
 import models.NormalMode
+import navigation.FakeNavigator
 import pages.AreYouALabradorPage
+import play.api.data.Form
+import play.api.libs.json.JsBoolean
 import play.api.mvc.Call
-import views.html.areYouALabrador
+import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
+import views.html.AreYouALabradorView
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class AreYouALabradorControllerSpec extends ControllerSpecBase {
 
@@ -36,11 +39,13 @@ class AreYouALabradorControllerSpec extends ControllerSpecBase {
   val formProvider = new AreYouALabradorFormProvider()
   val form = formProvider()
 
-  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new AreYouALabradorController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(onwardRoute), FakeIdentifierAction,
-      dataRetrievalAction, new DataRequiredActionImpl, formProvider)
+  val view = app.injector.instanceOf[AreYouALabradorView]
 
-  def viewAsString(form: Form[_] = form) = areYouALabrador(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
+    new AreYouALabradorController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(onwardRoute), new FakeIdentifierAction,
+      dataRetrievalAction, new DataRequiredActionImpl, formProvider, cc, view)
+
+  def viewAsString(form: Form[_] = form) = view(form, NormalMode)(fakeRequest, messages).toString
 
   "AreYouALabrador Controller" must {
 

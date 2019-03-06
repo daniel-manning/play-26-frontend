@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,19 @@
 
 package controllers
 
-import uk.gov.hmrc.http.cache.client.CacheMap
+import akka.stream.Materializer
 import base.SpecBase
 import controllers.actions.FakeDataRetrievalAction
+import play.api.mvc.MessagesControllerComponents
+import uk.gov.hmrc.http.cache.client.CacheMap
 
 trait ControllerSpecBase extends SpecBase {
 
   val cacheMapId = "id"
+
+  implicit val materializer:Materializer = app.materializer
+
+  val cc:MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
 
   def emptyCacheMap = CacheMap(cacheMapId, Map())
 

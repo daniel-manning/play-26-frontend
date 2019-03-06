@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import akka.stream.Materializer
 import com.google.inject.Inject
 import play.api.http.HeaderNames
 import play.api.mvc._
+import play.api.mvc.request.{Cell, RequestAttrKey}
 import uk.gov.hmrc.http.{SessionKeys, HeaderNames => HMRCHeaderNames}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -34,7 +35,7 @@ class SessionIdFilter (
                       ) extends Filter {
 
   @Inject
-  def this(mat: Materializer, sessionCookieBaker: SessionCookieBaker, ec: ExecutionContext) {
+  def this(mat: Materializer, ec: ExecutionContext, sessionCookieBaker: SessionCookieBaker) {
     this(mat, UUID.randomUUID(), sessionCookieBaker, ec)
   }
 
@@ -44,23 +45,13 @@ class SessionIdFilter (
 
     if (rh.session.get(SessionKeys.sessionId).isEmpty) {
 
-      val cookies: String = {
-
-        val session: Session =
-          rh.session + (SessionKeys.sessionId -> sessionId)
-
-        val cookies =
-          rh.cookies ++ Seq(Session.encodeAsCookie(session))
-
-        Cookies.encodeCookieHeader(cookies.toSeq)
-      }
-
       val headers = rh.headers.add(
-        HMRCHeaderNames.xSessionId -> sessionId,
-        HeaderNames.COOKIE -> cookies
+        HMRCHeaderNames.xSessionId -> sessionId
       )
 
-      f(rh.withHeaders(headers)).map {
+      val session = rh.session + (SessionKeys.sessionId -> sessionId)
+
+      f(rh.withHeaders(headers).addAttr(RequestAttrKey.Session, Cell(session)))/*.map {
         result =>
 
           val cookies =
@@ -73,7 +64,7 @@ class SessionIdFilter (
             }
 
           result.withSession(session + (SessionKeys.sessionId -> sessionId))
-      }
+      }*/
     } else {
       f(rh)
     }

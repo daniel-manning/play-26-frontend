@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,16 @@
 package views
 
 import views.behaviours.ViewBehaviours
-import views.html.unauthorised
+import views.html.UnauthorisedView
 
 class UnauthorisedViewSpec extends ViewBehaviours {
 
-  def view = () => unauthorised(frontendAppConfig)(fakeRequest, messages)
+  val view = app.injector.instanceOf[UnauthorisedView]
+
+  def createView = () => view()(fakeRequest, messages)
 
   "Unauthorised view" must {
 
-    behave like normalPage(view, "unauthorised")
+    behave like normalPage(createView, "unauthorised")
   }
 }

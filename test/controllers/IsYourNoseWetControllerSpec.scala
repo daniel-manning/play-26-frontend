@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,24 @@
 
 package controllers
 
-import play.api.data.Form
-import play.api.libs.json.JsBoolean
-import uk.gov.hmrc.http.cache.client.CacheMap
-import navigation.FakeNavigator
 import connectors.FakeDataCacheConnector
 import controllers.actions._
-import play.api.test.Helpers._
 import forms.IsYourNoseWetFormProvider
 import models.NormalMode
+import navigation.FakeNavigator
 import pages.IsYourNoseWetPage
+import play.api.data.Form
+import play.api.libs.json.JsBoolean
 import play.api.mvc.Call
-import views.html.isYourNoseWet
+import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
+import views.html.IsYourNoseWetView
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class IsYourNoseWetControllerSpec extends ControllerSpecBase {
+
+  val view = app.injector.instanceOf[IsYourNoseWetView]
 
   def onwardRoute = Call("GET", "/play-26-frontend/this-service-has-been-reset")
 
@@ -37,10 +41,10 @@ class IsYourNoseWetControllerSpec extends ControllerSpecBase {
   val form = formProvider()
 
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
-    new IsYourNoseWetController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(onwardRoute), FakeIdentifierAction,
-      dataRetrievalAction, new DataRequiredActionImpl, formProvider)
+    new IsYourNoseWetController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(onwardRoute), new FakeIdentifierAction,
+      dataRetrievalAction, new DataRequiredActionImpl, formProvider, cc, view)
 
-  def viewAsString(form: Form[_] = form) = isYourNoseWet(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+  def viewAsString(form: Form[_] = form) = view(form, NormalMode)(fakeRequest, messages).toString
 
   "IsYourNoseWet Controller" must {
 

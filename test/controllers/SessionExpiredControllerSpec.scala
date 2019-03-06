@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,21 @@
 package controllers
 
 import play.api.test.Helpers._
-import views.html.session_expired
+import views.html.SessionExpiredView
 
 class SessionExpiredControllerSpec extends ControllerSpecBase {
 
+  val view = app.injector.instanceOf[SessionExpiredView]
+
   "SessionExpired Controller" must {
     "return 200 for a GET" in {
-      val result = new SessionExpiredController(frontendAppConfig, messagesApi).onPageLoad()(fakeRequest)
+      val result = new SessionExpiredController(frontendAppConfig, messagesApi, cc, view).onPageLoad()(fakeRequest)
       status(result) mustBe OK
     }
 
     "return the correct view for a GET" in {
-      val result = new SessionExpiredController(frontendAppConfig, messagesApi).onPageLoad()(fakeRequest)
-      contentAsString(result) mustBe session_expired(frontendAppConfig)(fakeRequest, messages).toString
+      val result = new SessionExpiredController(frontendAppConfig, messagesApi, cc, view).onPageLoad()(fakeRequest)
+      contentAsString(result) mustBe view()(fakeRequest, messages).toString
     }
   }
 }

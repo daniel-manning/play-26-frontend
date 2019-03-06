@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 
 package views
 
-import play.api.data.Form
 import controllers.routes
 import forms.IsYourNoseWetFormProvider
-import views.behaviours.YesNoViewBehaviours
 import models.NormalMode
-import views.html.isYourNoseWet
+import play.api.data.Form
+import views.behaviours.YesNoViewBehaviours
+import views.html.IsYourNoseWetView
 
 class IsYourNoseWetViewSpec extends YesNoViewBehaviours {
 
@@ -29,9 +29,11 @@ class IsYourNoseWetViewSpec extends YesNoViewBehaviours {
 
   val form = new IsYourNoseWetFormProvider()()
 
-  def createView = () => isYourNoseWet(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  val view = app.injector.instanceOf[IsYourNoseWetView]
 
-  def createViewUsingForm = (form: Form[_]) => isYourNoseWet(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView = () => view(form, NormalMode)(fakeRequest, messages)
+
+  def createViewUsingForm = (form: Form[_]) => view(form, NormalMode)(fakeRequest, messages)
 
   "IsYourNoseWet view" must {
 

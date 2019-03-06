@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class FrontendAppConfig @Inject()(configuration: Configuration){
   val betaFeedbackUrl = s"$contactHost/contact/beta-feedback"
   val betaFeedbackUnauthenticatedUrl = s"$contactHost/contact/beta-feedback-unauthenticated"
 
-  val authUrl = configuration.get[Service]("auth")
+  val authUrl = configuration.get[Service]("microservice.services.auth")
   val loginUrl = configuration.get[String]("urls.login")
   val loginContinueUrl = configuration.get[String]("urls.loginContinue")
 
