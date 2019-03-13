@@ -51,20 +51,17 @@ class SessionIdFilter (
 
       val session = rh.session + (SessionKeys.sessionId -> sessionId)
 
-      f(rh.withHeaders(headers).addAttr(RequestAttrKey.Session, Cell(session)))/*.map {
+      f(rh.withHeaders(headers).addAttr(RequestAttrKey.Session, Cell(session))).map {
         result =>
 
-          val cookies =
-            Cookies.fromSetCookieHeader(result.header.headers.get(HeaderNames.SET_COOKIE))
+          val updatedSession = if (result.session(rh).get(SessionKeys.sessionId).isDefined) {
+            result.session(rh)
+          } else {
+            result.session(rh) + (SessionKeys.sessionId -> sessionId)
+          }
 
-          val session = Session.decodeFromCookie(cookies.get(sessionCookieBaker.COOKIE_NAME)).data
-            .foldLeft(rh.session) {
-              case (m, n) =>
-                m + n
-            }
-
-          result.withSession(session + (SessionKeys.sessionId -> sessionId))
-      }*/
+          result.withSession(updatedSession)
+      }
     } else {
       f(rh)
     }

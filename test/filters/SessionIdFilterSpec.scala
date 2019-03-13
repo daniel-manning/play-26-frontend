@@ -20,6 +20,7 @@ import java.util.UUID
 
 import akka.stream.Materializer
 import com.google.inject.Inject
+import filters.SessionIdFilterSpec.TestSessionIdFilter
 import org.scalatest.{MustMatchers, WordSpec}
 import org.scalatestplus.play.OneAppPerSuite
 import org.scalatestplus.play.components.OneAppPerSuiteWithComponents
@@ -88,6 +89,9 @@ class SessionIdFilterSpec extends WordSpec with MustMatchers with OneAppPerSuite
       .overrides(
         bind[HttpFilters].to[Filters],
         bind[SessionIdFilter].to[TestSessionIdFilter]
+      )
+      .configure(
+      "play.filters.disabled" -> List("uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCryptoFilter")
       )
       .router(components.router)
       .build()
