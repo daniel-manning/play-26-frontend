@@ -27,10 +27,8 @@ class WhatNoiseDoYouMakeFormProvider @Inject() extends Mappings {
 
    def apply(): Form[WhatNoiseDoYouMake] = Form(
      mapping(
-      "field1" -> text("whatNoiseDoYouMake.error.field1.required")
-        .verifying(maxLength(10, "whatNoiseDoYouMake.error.field1.length")),
-      "field2" -> text("whatNoiseDoYouMake.error.field2.required")
-        .verifying(maxLength(100, "whatNoiseDoYouMake.error.field2.length"))
+      "noise" -> text("whatNoiseDoYouMake.error.noise.required")
+        .verifying(maxLength(10, "whatNoiseDoYouMake.error.noise.length"))
     )(WhatNoiseDoYouMake.apply)(WhatNoiseDoYouMake.unapply)
    )
  }

@@ -18,7 +18,7 @@ package models
 
 import play.api.libs.json._
 
-case class WhatNoiseDoYouMake (field1: String, field2: String)
+case class WhatNoiseDoYouMake (noise: String)
 
 object WhatNoiseDoYouMake {
   implicit val format = Json.format[WhatNoiseDoYouMake]

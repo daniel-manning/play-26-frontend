@@ -46,7 +46,7 @@ class WhatNoiseDoYouMakeViewSpec extends QuestionViewBehaviours[WhatNoiseDoYouMa
       createViewUsingForm,
       messageKeyPrefix,
       routes.WhatNoiseDoYouMakeController.onSubmit(NormalMode).url,
-      "field1", "field2"
+      "noise"
     )
   }
 }

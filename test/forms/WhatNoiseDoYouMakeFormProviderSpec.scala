@@ -23,39 +23,12 @@ class WhatNoiseDoYouMakeFormProviderSpec extends StringFieldBehaviours {
 
   val form = new WhatNoiseDoYouMakeFormProvider()()
 
-  ".field1" must {
+  ".noise" must {
 
-    val fieldName = "field1"
-    val requiredKey = "whatNoiseDoYouMake.error.field1.required"
-    val lengthKey = "whatNoiseDoYouMake.error.field1.length"
+    val fieldName = "noise"
+    val requiredKey = "whatNoiseDoYouMake.error.noise.required"
+    val lengthKey = "whatNoiseDoYouMake.error.noise.length"
     val maxLength = 10
-
-    behave like fieldThatBindsValidData(
-      form,
-      fieldName,
-      stringsWithMaxLength(maxLength)
-    )
-
-    behave like fieldWithMaxLength(
-      form,
-      fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
-    )
-
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
-  }
-
-  ".field2" must {
-
-    val fieldName = "field2"
-    val requiredKey = "whatNoiseDoYouMake.error.field2.required"
-    val lengthKey = "whatNoiseDoYouMake.error.field2.length"
-    val maxLength = 100
 
     behave like fieldThatBindsValidData(
       form,

@@ -36,7 +36,9 @@ class CheckYourAnswersController @Inject()(appConfig: FrontendAppConfig,
   def onPageLoad() = (authenticate andThen getData andThen requireData) {
     implicit request =>
       val checkYourAnswersHelper = new CheckYourAnswersHelper(request.userAnswers)
-      val sections = Seq(AnswerSection(None, Seq()))
+      val sections = Seq(AnswerSection(None, Seq(checkYourAnswersHelper.isYourNoseWet,
+                                                 checkYourAnswersHelper.whatNoiseDoYouMake,
+                                                 checkYourAnswersHelper.areYouALabrador).filter(_.isDefined).map(_.get)))
       Ok(view(sections))
   }
 }

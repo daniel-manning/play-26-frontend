@@ -26,7 +26,6 @@ trait ModelGenerators {
     Arbitrary {
       for {
         field1 <- arbitrary[String]
-        field2 <- arbitrary[String]
-      } yield WhatNoiseDoYouMake(field1, field2)
+      } yield WhatNoiseDoYouMake(field1)
     }
 }

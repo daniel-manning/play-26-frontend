@@ -41,8 +41,8 @@ class IsYourNoseWetController @Inject()(appConfig: FrontendAppConfig,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
                                          formProvider: IsYourNoseWetFormProvider,
-                                        cc: MessagesControllerComponents,
-                                        view: IsYourNoseWetView
+                                         cc: MessagesControllerComponents,
+                                         view: IsYourNoseWetView
                                          )(implicit ec: ExecutionContext) extends FrontendController(cc) with I18nSupport {
 
   val form: Form[Boolean] = formProvider()

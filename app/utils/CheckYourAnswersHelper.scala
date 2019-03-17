@@ -24,7 +24,7 @@ import viewmodels.{AnswerRow, RepeaterAnswerRow, RepeaterAnswerSection}
 class CheckYourAnswersHelper(userAnswers: UserAnswers) {
 
   def whatNoiseDoYouMake: Option[AnswerRow] = userAnswers.get(WhatNoiseDoYouMakePage) map {
-    x => AnswerRow("whatNoiseDoYouMake.checkYourAnswersLabel", s"${x.field1} ${x.field2}", false, routes.WhatNoiseDoYouMakeController.onPageLoad(CheckMode).url)
+    x => AnswerRow("whatNoiseDoYouMake.checkYourAnswersLabel", s"${x.noise}", false, routes.WhatNoiseDoYouMakeController.onPageLoad(CheckMode).url)
   }
 
   def isYourNoseWet: Option[AnswerRow] = userAnswers.get(IsYourNoseWetPage) map {
