@@ -29,6 +29,7 @@ import models.Mode
 import pages.AreYouALabradorPage
 import navigation.Navigator
 import views.html.areYouALabrador
+import uk.gov.hmrc.csp.WebchatClient
 
 import scala.concurrent.Future
 
@@ -39,7 +40,8 @@ class AreYouALabradorController @Inject()(appConfig: FrontendAppConfig,
                                          identify: IdentifierAction,
                                          getData: DataRetrievalAction,
                                          requireData: DataRequiredAction,
-                                         formProvider: AreYouALabradorFormProvider
+                                         formProvider: AreYouALabradorFormProvider,
+                                          webchatClient: WebchatClient
                                          ) extends FrontendController with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
@@ -52,7 +54,7 @@ class AreYouALabradorController @Inject()(appConfig: FrontendAppConfig,
         case Some(value) => form.fill(value)
       }
 
-      Ok(areYouALabrador(appConfig, preparedForm, mode))
+      Ok(areYouALabrador(appConfig, preparedForm, mode, webchatClient))
   }
 
   def onSubmit(mode: Mode) = (identify andThen getData andThen requireData).async {
@@ -60,7 +62,7 @@ class AreYouALabradorController @Inject()(appConfig: FrontendAppConfig,
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(areYouALabrador(appConfig, formWithErrors, mode))),
+          Future.successful(BadRequest(areYouALabrador(appConfig, formWithErrors, mode, webchatClient))),
         (value) => {
           val updatedAnswers = request.userAnswers.set(AreYouALabradorPage, value)
 

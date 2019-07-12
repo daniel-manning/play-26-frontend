@@ -21,7 +21,7 @@
 @import views.ViewUtils._
 @import uk.gov.hmrc.csp.WebchatClient
 
-@(appConfig: FrontendAppConfig, form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(appConfig: FrontendAppConfig, form: Form[_], mode: Mode, webchatClient: WebchatClient)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} ${messages("areYouALabrador.title")}",
@@ -44,7 +44,7 @@
 
         @components.submit_button()
 
-        @WebchatClient.webchatClickToChatScriptPartial(appConfig.webchatEntryPoint, appConfig.webchatTemplate)
+        @webchatClient.webchatClickToChatScriptPartial(appConfig.webchatEntryPoint, appConfig.webchatTemplate)
 
         <a href="#" onclick="openChat();">Oh no!</a>
     }

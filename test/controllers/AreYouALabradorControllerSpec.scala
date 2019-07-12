@@ -27,6 +27,7 @@ import forms.AreYouALabradorFormProvider
 import models.NormalMode
 import pages.AreYouALabradorPage
 import play.api.mvc.Call
+import uk.gov.hmrc.csp.WebchatClient
 import views.html.areYouALabrador
 
 class AreYouALabradorControllerSpec extends ControllerSpecBase {
@@ -35,12 +36,14 @@ class AreYouALabradorControllerSpec extends ControllerSpecBase {
 
   val formProvider = new AreYouALabradorFormProvider()
   val form = formProvider()
+  val webchatClient = app.injector.instanceOf[WebchatClient]
 
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
     new AreYouALabradorController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(onwardRoute), FakeIdentifierAction,
-      dataRetrievalAction, new DataRequiredActionImpl, formProvider)
+      dataRetrievalAction, new DataRequiredActionImpl, formProvider, webchatClient)
 
-  def viewAsString(form: Form[_] = form) = areYouALabrador(frontendAppConfig, form, NormalMode)(fakeRequest, messages).toString
+
+  def viewAsString(form: Form[_] = form) = areYouALabrador(frontendAppConfig, form, NormalMode, webchatClient)(fakeRequest, messages).toString
 
   "AreYouALabrador Controller" must {
 
