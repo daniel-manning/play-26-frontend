@@ -39,6 +39,9 @@ class FrontendAppConfig @Inject()(configuration: Configuration){
   val loginUrl = configuration.get[String]("urls.login")
   val loginContinueUrl = configuration.get[String]("urls.loginContinue")
 
+  lazy val webchatTemplate:String = configuration.get[String]("microservice.services.webchat-frontend.template")
+  lazy val webchatEntryPoint:String = configuration.get[String]("microservice.services.webchat-frontend.entry-point")
+
   val languageTranslationEnabled = configuration.get[Boolean]("microservice.services.features.welsh-translation")
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),
