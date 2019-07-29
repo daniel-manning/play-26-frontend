@@ -29,9 +29,9 @@ class AreYouALabradorViewSpec extends YesNoViewBehaviours {
 
   val form = new AreYouALabradorFormProvider()()
 
-  def createView = () => areYouALabrador(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createView = () => areYouALabrador(frontendAppConfig, form, NormalMode, webchatClient)(fakeRequest, messages)
 
-  def createViewUsingForm = (form: Form[_]) => areYouALabrador(frontendAppConfig, form, NormalMode)(fakeRequest, messages)
+  def createViewUsingForm = (form: Form[_]) => areYouALabrador(frontendAppConfig, form, NormalMode, webchatClient)(fakeRequest, messages)
 
   "AreYouALabrador view" must {
 

@@ -22,12 +22,15 @@ import org.scalatestplus.play.guice._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.Injector
 import play.api.test.FakeRequest
+import uk.gov.hmrc.csp.WebchatClient
 
 trait SpecBase extends PlaySpec with GuiceOneAppPerSuite {
 
   def injector: Injector = app.injector
 
   def frontendAppConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
+
+  def webchatClient: WebchatClient = injector.instanceOf[WebchatClient]
 
   def messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
 

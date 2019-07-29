@@ -36,7 +36,7 @@ class AreYouALabradorControllerSpec extends ControllerSpecBase {
 
   val formProvider = new AreYouALabradorFormProvider()
   val form = formProvider()
-  val webchatClient = app.injector.instanceOf[WebchatClient]
+  //val webchatClient = app.injector.instanceOf[WebchatClient]
 
   def controller(dataRetrievalAction: DataRetrievalAction = getEmptyCacheMap) =
     new AreYouALabradorController(frontendAppConfig, messagesApi, FakeDataCacheConnector, new FakeNavigator(onwardRoute), FakeIdentifierAction,
